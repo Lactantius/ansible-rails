@@ -16,7 +16,7 @@
     #   raw: update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
   roles:
     - common
-    # - deploy-user
+    - deploy-user
     # - postgresql
     # - nginx
     # - certbot
