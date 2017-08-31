@@ -1,3 +1,4 @@
-/hosts
-/group_vars/all
-/site.retry
+/provisioning/hosts
+/provisioning/group_vars/all
+/provisioning/site.retry
+/.vagrant
