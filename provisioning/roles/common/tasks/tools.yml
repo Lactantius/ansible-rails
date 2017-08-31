@@ -1,21 +1,24 @@
 - name: Install Tools
-  apt: name={{ item }} state=latest update_cache=true
+  yum: name={{ item }} state=latest update_cache=true
   with_items:
-    - build-essential
+    # Not in this repository:
+    # - build-essential
+    # - htop
+    # - nodejs
+    # - wget
+    # Consider disabling
     - tmux
-    - vim
-    - htop
-    - git-core
-    - wget
-    - zlib1g-dev
-    - libssl-dev
-    - libreadline-dev
-    - libyaml-dev
-    - libxml2-dev
-    - libxslt1-dev
-    - libffi-dev
-    - curl
-    - libcurl3
-    - libcurl3-gnutls
-    - libcurl4-openssl-dev
-    - nodejs
+    # - vim
+    # - git
+    # - libcurl-devel
+
+    # - zlib1g-dev
+    # - libssl-dev
+    # - libreadline-dev
+    # - libyaml-dev
+    # - libxml2-dev
+    # - libxslt1-dev
+    # - libffi-dev
+    # - libcurl3
+    # - libcurl3-gnutls
+    # - libcurl4-openssl-dev

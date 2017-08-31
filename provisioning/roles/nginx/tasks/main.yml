@@ -1,6 +1,6 @@
 ---
 - name: Install Nginx
-  apt: name=nginx state=latest
+  yum: name=nginx state=latest
 
 - name: Check for dhparam.pem
   stat: path=/etc/nginx/dhparam.pem

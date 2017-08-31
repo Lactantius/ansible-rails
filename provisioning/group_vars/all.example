@@ -30,9 +30,9 @@ certbot_email: SET_EMAIL_HERE
 ssh_public_key_files:
   - /Users/SET_YOUR_LOCAL_USERNAME_HERE/.ssh/id_rsa.pub
 
-# MySQL
-mysql_root_db_password: SET_PASSWORD_HERE
-mysql_app_db_password: SET_PASSWORD_HERE
+# Postgresql
+postgresql_root_db_password: SET_PASSWORD_HERE
+postgresql_app_db_password: SET_PASSWORD_HERE
 
 # Ruby
 ruby_install_version: 0.6.1

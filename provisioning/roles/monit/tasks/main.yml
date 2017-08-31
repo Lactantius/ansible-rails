@@ -1,6 +1,6 @@
 ---
 - name: Install monit
-  apt: name=monit state=latest
+  yum: name=monit state=latest
 
 - name: Enable monit HTTP interface
   blockinfile:

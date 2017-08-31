@@ -1,11 +1,11 @@
-# Ansible: Ruby on Rails Server (Ubuntu 16.x)
+# Ansible: Ruby on Rails Server (Centos 7)
 
 Use this ansible playbook to setup a fresh server with the following components:
 
 * Nginx
 * Puma App Server
 * Certbot (Let's Encrypt)
-* MySQL
+* Postgresql
 * Memcached
 * Redis
 * Sidekiq

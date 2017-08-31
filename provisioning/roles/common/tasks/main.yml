@@ -2,8 +2,8 @@
 - name: gather facts
   setup:
 
-- name: Perform Safe Upgrade
-  apt: upgrade=safe update_cache=yes
+    # - name: Perform Safe Upgrade
+    # yum: name='*' state=latest
 
 - include: hostname.yml
 - include: swap.yml
