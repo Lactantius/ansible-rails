@@ -17,7 +17,7 @@
   roles:
     - common
     - deploy-user
-    # - postgresql
+    - postgresql
     # - nginx
     # - certbot
     # - ruby

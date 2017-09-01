@@ -4,40 +4,53 @@
   with_items:
     - postgresql-server
     - postgresql-contrib
+    - python-psycopg2
 
-- name: Create Postgresql Database
-  postgresql_db: name={{ deploy_app_name }}
-            state=present
-            encoding=utf8mb4
+- name: Ensure data directory is empty
+  file:
+    path: /var/lib/pgsql/data
+    state: absent
+
+- name: Initialize cluster
+  command: postgresql-setup initdb
 
 - name: Ensure Postgresql service is up
   service: name=postgresql state=started enabled=yes
 
-- name: copy .my.cnf file with root password credentials
-  template:
-    src=templates/my.cnf
-    dest=/root/.my.cnf
-    owner=root
-    mode=0600
-
-- name: Update Postgresql root password for all root accounts
-  postgresql_user: name=root
-              host={{ item }}
-              password={{ postgresql_root_db_password }}
-  with_items:
-    - 127.0.0.1
-    - ::1
-    - localhost
-
-- name: Ensure anonymous users are not in the database
-  postgresql_user: name='' host={{ item }} state=absent
-  with_items:
-    - $inventory_hostname
-    - $ansible_hostname
-    - localhost
+- name: Restart Postgresql service
+  service: name=postgresql state=restarted
 
 - name: Create Postgresql User
-  postgresql_user: name={{ deploy_app_name }}
-              priv={{ deploy_app_name }}.*:ALL
-              state=present
-              password="{{ postgresql_app_db_password }}"
+  become: true
+  become_user: postgres
+  postgresql_user:
+    name: "{{ deploy_app_name }}"
+    state: present
+    role_attr_flags: NOCREATEDB,NOSUPERUSER
+    password: "{{ postgresql_app_db_password }}"
+
+- name: Create Postgresql Database
+  become: true
+  become_user: postgres
+  postgresql_db:
+    name: "{{ deploy_app_name }}"
+    state: present
+    encoding: UTF-8
+
+- name: Give user access to database
+  become: true
+  become_user: postgres
+  postgresql_user:
+    name: "{{ deploy_app_name }}"
+    db: "{{ deploy_app_name }}"
+    priv: ALL
+
+- name: Ensure no one else can access the database
+  become: true
+  become_user: postgres
+  postgresql_privs:
+    db: "{{ deploy_app_name }}"
+    role: PUBLIC
+    type: database
+    priv: ALL
+    state: absent
