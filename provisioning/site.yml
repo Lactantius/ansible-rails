@@ -18,7 +18,7 @@
     - common
     - deploy-user
     - postgresql
-    # - nginx
+    - nginx
     # - certbot
     # - ruby
     # - rails
