@@ -8,6 +8,8 @@
     # - wget
     # Consider disabling
     - tmux
+    - checkpolicy
+    - policycoreutils-python
     # - vim
     # - git
     # - libcurl-devel

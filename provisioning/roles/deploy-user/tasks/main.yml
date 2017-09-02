@@ -19,3 +19,17 @@
 - name: Disallow password authentication
   action: lineinfile dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication no" state=present
   notify: Restart sshd
+
+- name: Move in SELinux file to fix stupid SELinux stuff
+  copy:
+    src: sshd.te
+    dest: /home/{{ deploy_user }}/sshd.te
+
+- name: Begin compilation of sshd.te
+  command: checkmodule -M -m -o sshd.mod sshd.te
+
+- name: Finish compilation of sshd.te
+  command: semodule_package -o sshd.pp -m sshd.mod
+
+- name: Install sshd.pp
+  command: semodule -i sshd.pp

@@ -1,11 +1,9 @@
 ---
-- name: Download chruby
-  get_url:
-    url: "https://github.com/postmodern/chruby/archive/v{{ chruby_version }}.tar.gz"
-    dest: /root/chruby.tar.gz
-
-- name: Unpack chruby
-  command: tar -xzvf /root/chruby.tar.gz
+- name: Download and unpack chruby
+  unarchive:
+    remote_src: yes
+    src: "https://github.com/postmodern/chruby/archive/v{{ chruby_version }}.tar.gz"
+    dest: /root/
 
 - name: Install chruby
   make: chdir=/root/chruby-{{ chruby_version }} target=install

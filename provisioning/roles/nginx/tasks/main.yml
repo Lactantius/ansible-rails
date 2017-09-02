@@ -20,3 +20,17 @@
 
 - name: Disable default config
   file: path=/etc/nginx/conf.d/default.conf state=absent
+
+- name: Move SELinux policy file
+  copy:
+    src: nginx.te
+    dest: /home/{{ deploy_user }}/nginx.te
+
+- name: Begin compiling SELinux policy file
+  command: checkmodule -M -m -o nginx.mod nginx.te
+
+- name: Finish compiling SELinux policy file
+  command: semodule_package -o nginx.pp -m nginx.mod
+
+- name: Install SELinux policy file
+  command: semodule -i nginx.pp

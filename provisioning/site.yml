@@ -20,9 +20,9 @@
     - postgresql
     - nginx
     # - certbot
-    # - ruby
-    # - rails
-    # - monit
-    # - memcached
-    # - redis
-    # - elasticsearch
+    - ruby
+    - rails
+    - monit
+    - memcached
+    - redis
+    - elasticsearch

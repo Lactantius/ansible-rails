@@ -11,11 +11,17 @@
 - name: Copy the EPEL repository definition
   copy: src=epel.repo dest=/etc/yum.repos.d/
 
+- name: Copy the Elasticsearch repository definition
+  copy: src=elasticsearch.repo dest=/etc/yum.repos.d/
+
 - name: Create the GPG key for NGINX
   copy: src=RPM-GPG-KEY-NGINX dest=/etc/pki/rpm-gpg
 
 - name: Create the GPG key for EPEL
   copy: src=RPM-GPG-KEY-EPEL-7 dest=/etc/pki/rpm-gpg
+
+- name: Create the GPG key for Elasticsearch
+  copy: src=GPG-KEY-elasticsearch dest=/etc/pki/rpm-gpg
 
 - include: hostname.yml
 - include: swap.yml

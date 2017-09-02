@@ -1,0 +1,10 @@
+module sshd 1.0;
+
+require {
+        type httpd_sys_content_t;
+        type sshd_t;
+        class file { open read };
+}
+
+#============= sshd_t ==============
+allow sshd_t httpd_sys_content_t:file { open read };

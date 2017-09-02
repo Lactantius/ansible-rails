@@ -32,6 +32,9 @@
 - name: Copy puma.rb
   template: src=puma.rb dest={{ deploy_dir }}{{ deploy_app_name }}/shared/puma.rb owner={{ deploy_user }} group={{ deploy_user }}
 
+- name: Set SELinux policy for Rails direcotry
+  command: chcon -Rv --type=httpd_sys_content_t {{ deploy_dir }}
+
 - name: Restart Nginx
   service: name=nginx state=restarted enabled=yes
 
