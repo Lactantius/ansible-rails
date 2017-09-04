@@ -3,14 +3,13 @@ default: &default
   pool:     5
   timeout:  5000
   encoding: utf8
+  database: {{ deploy_app_name }}
   username: {{ deploy_app_name }}
   password: {{ postgresql_app_db_password }}
   host: localhost
 
 production:
   <<: *default
-  database: {{ deploy_app_name }}
 
 staging:
   <<: *default
-  database: staging_{{ deploy_app_name }}

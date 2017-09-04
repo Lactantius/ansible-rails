@@ -15,6 +15,11 @@
 - name: Initialize cluster
   command: postgresql-setup initdb
 
+- name: Allow password authentication
+  copy:
+    src: pg_hba.conf
+    dest: /var/lib/pgsql/data/pg_hba.conf
+
 - name: Ensure Postgresql service is up
   service: name=postgresql state=started enabled=yes
 
@@ -30,21 +35,11 @@
     role_attr_flags: NOCREATEDB,NOSUPERUSER
     password: "{{ postgresql_app_db_password }}"
 
-- name: Create Production Postgresql Database
+- name: Create Postgresql Database
   postgresql_db:
     name: "{{ deploy_app_name }}"
     state: present
     encoding: UTF-8
-  when: staging == false
-  become: true
-  become_user: postgres
-
-- name: Create Staging Postgresql Database
-  postgresql_db:
-    name: "staging_{{ deploy_app_name }}"
-    state: present
-    encoding: UTF-8
-  when: staging == true
   become: true
   become_user: postgres
 
