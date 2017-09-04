@@ -4,14 +4,13 @@
     # Not in this repository:
     # - build-essential
     # - htop
-    # - nodejs
     # - wget
     # Consider disabling
-    - tmux
-    - checkpolicy
-    - policycoreutils-python
+    - checkpolicy # Required for SELinux mods
+    - policycoreutils-python # Required for SELinux mods
+    - nodejs # Required for ExecJS
     # - vim
-    # - git
+    - git # Required for Capistrano deploy
     # - libcurl-devel
 
     # - zlib1g-dev

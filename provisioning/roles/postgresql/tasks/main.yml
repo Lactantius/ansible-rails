@@ -4,6 +4,7 @@
   with_items:
     - postgresql-server
     - postgresql-contrib
+    - postgresql-devel # For libpq-fe.h
     - python-psycopg2
 
 - name: Ensure data directory is empty
@@ -29,28 +30,38 @@
     role_attr_flags: NOCREATEDB,NOSUPERUSER
     password: "{{ postgresql_app_db_password }}"
 
-- name: Create Postgresql Database
-  become: true
-  become_user: postgres
+- name: Create Production Postgresql Database
   postgresql_db:
     name: "{{ deploy_app_name }}"
     state: present
     encoding: UTF-8
-
-- name: Give user access to database
+  when: staging == false
   become: true
   become_user: postgres
+
+- name: Create Staging Postgresql Database
+  postgresql_db:
+    name: "staging_{{ deploy_app_name }}"
+    state: present
+    encoding: UTF-8
+  when: staging == true
+  become: true
+  become_user: postgres
+
+- name: Give user access to database
   postgresql_user:
     name: "{{ deploy_app_name }}"
     db: "{{ deploy_app_name }}"
     priv: ALL
-
-- name: Ensure no one else can access the database
   become: true
   become_user: postgres
+
+- name: Ensure no one else can access the database
   postgresql_privs:
     db: "{{ deploy_app_name }}"
     role: PUBLIC
     type: database
     priv: ALL
     state: absent
+  become: true
+  become_user: postgres
