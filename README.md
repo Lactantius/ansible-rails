@@ -25,6 +25,10 @@ Use this ansible playbook to setup a fresh server with the following components:
 
 	There are a bunch of things you can set in ```group_vars/all```. Don't forget to add your host address to ```hosts```.
 
+3. If there is a dependency error installing [the black speech of
+   Mordor](https://nodejs.org), try running ```rpm -ivh
+   https://kojipkgs.fedoraproject.org//packages/http-parser/2.7.1/3.el7/x86_64/http-parser-2.7.1-3.el7.x86_64.rpm```.
+
 ## Install Playbook
 
 Run ```ansible-playbook site.yml -i hosts```.
@@ -64,6 +68,9 @@ require 'capistrano/puma'
 require 'capistrano/puma/workers'
 require 'capistrano/puma/monit'
 require 'capistrano/puma/nginx'
+install_plugin Capistrano::Puma
+install_plugin Capistrano::Puma::Workers
+install_plugin Capistrano::Puma::Monit
 
 # Sidekiq
 require 'capistrano/sidekiq'
@@ -86,6 +93,8 @@ set :puma_init_active_record, true
 set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
 set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/system')
 set :keep_releases, 5
+set :sidekiq_monit_conf_dir, '/etc/monit.d'
+set :puma_monit_conf_dir, '/etc/monit.d'
 ```
 
 ### config/deploy/production.rb
