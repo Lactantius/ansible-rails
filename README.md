@@ -25,8 +25,9 @@ Use this ansible playbook to setup a fresh server with the following components:
 
 	There are a bunch of things you can set in ```group_vars/all```. Don't forget to add your host address to ```hosts```.
 
-3. If there is a dependency error installing [the black speech of
-   Mordor](https://nodejs.org), try running ```rpm -ivh
+3. If there is a [dependency error installing the Black Speech of
+   Mordor](https://bugs.centos.org/view.php?id=13669), try running
+   ```rpm -ivh
    https://kojipkgs.fedoraproject.org//packages/http-parser/2.7.1/3.el7/x86_64/http-parser-2.7.1-3.el7.x86_64.rpm```.
 
 ## Install Playbook

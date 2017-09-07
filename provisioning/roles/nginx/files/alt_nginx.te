@@ -1,0 +1,15 @@
+# This file might be all you need; the other file had some stuff needed for
+# if you wanted to run rails in a home directory, which apparently SELinux
+# hates.
+
+module nginx 1.0;
+
+require {
+        type httpd_t;
+        type httpd_sys_content_t;
+        class sock_file write;
+}
+
+#============= httpd_t ==============
+allow httpd_t httpd_sys_content_t:sock_file write;
+

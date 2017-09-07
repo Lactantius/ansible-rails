@@ -2,10 +2,11 @@ module nginx 1.0;
 
 require {
         type httpd_t;
-        type user_home_t;
+        type user_home_t; # If you want it in home, for some reason
         type httpd_sys_content_t;
-        class dir { add_name write };
-        class file { append create open };
+        class dir { add_name write };       # Not sure about
+        class file { append create open };  # these two
+        class sock_file write;
 }
 
 #============= httpd_t ==============
@@ -21,3 +22,5 @@ allow httpd_t httpd_sys_content_t:file append;
 
 #!!!! This avc is allowed in the current policy
 allow httpd_t user_home_t:file open;
+
+allow httpd_t httpd_sys_content_t:sock_file write;
