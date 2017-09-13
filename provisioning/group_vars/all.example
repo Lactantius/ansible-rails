@@ -16,6 +16,14 @@ deploy_password: SET_PASSWORD_HERE
 deploy_app_name: SET_APP_NAME_HERE
 deploy_server_hostname: SET_APP_HOSTNAME_HERE
 staging: false
+shared_dirs:
+  - releases
+  - repo
+  - shared
+  - shared/config
+  - shared/log
+  - shared/public
+  - shared/tmp 
 
 # Nginx
 nginx_https_enabled: true
