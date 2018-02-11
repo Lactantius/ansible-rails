@@ -2,29 +2,29 @@
 - name: Install Postgresql
   yum: name={{ item }} state=latest update_cache=true
   with_items:
-    - postgresql-server
-    - postgresql-contrib
-    - postgresql-devel # For libpq-fe.h
+    - postgresql10-server
+    - postgresql10-contrib
+    - postgresql10-devel # For libpq-fe.h
     - python-psycopg2
 
 - name: Ensure data directory is empty
   file:
-    path: /var/lib/pgsql/data
+    path: /var/lib/pgsql/10/data
     state: absent
 
 - name: Initialize cluster
-  command: postgresql-setup initdb
+  command: /usr/pgsql-10/bin/postgresql-setup initdb
 
 - name: Allow password authentication
   copy:
     src: pg_hba.conf
-    dest: /var/lib/pgsql/data/pg_hba.conf
+    dest: /var/lib/pgsql/10/data
 
 - name: Ensure Postgresql service is up
-  service: name=postgresql state=started enabled=yes
+  service: name=postgresql-10 state=started enabled=yes
 
 - name: Restart Postgresql service
-  service: name=postgresql state=restarted
+  service: name=postgresql-10 state=restarted
 
 - name: Create Postgresql User
   become: true
