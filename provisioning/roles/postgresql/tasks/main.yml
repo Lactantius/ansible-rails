@@ -13,7 +13,7 @@
     state: absent
 
 - name: Initialize cluster
-  command: /usr/pgsql-10/bin/postgresql-setup initdb
+  command: /usr/pgsql-10/bin/postgresql-10-setup initdb
 
 - name: Allow password authentication
   copy:
@@ -34,6 +34,7 @@
     state: present
     role_attr_flags: NOCREATEDB,NOSUPERUSER
     password: "{{ postgresql_app_db_password }}"
+    encrypted: true
 
 - name: Create Postgresql Database
   postgresql_db:
