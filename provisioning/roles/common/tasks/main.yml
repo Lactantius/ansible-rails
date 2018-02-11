@@ -26,6 +26,9 @@
 - name: Create the GPG key for Elasticsearch
   copy: src=GPG-KEY-elasticsearch dest=/etc/pki/rpm-gpg
 
+- name: Create the GPG key for Postgresql
+  copy: src=RPM-GPG-KEY-PGDG dest=/etc/pki/rpm-gpg
+
 - include: hostname.yml
 - include: swap.yml
   when: swap_enabled is defined and swap_enabled == true
