@@ -27,7 +27,7 @@
   copy: src=GPG-KEY-elasticsearch dest=/etc/pki/rpm-gpg
 
 - name: Create the GPG key for Postgresql
-  copy: src=RPM-GPG-KEY-PGDG dest=/etc/pki/rpm-gpg
+  copy: src=RPM-GPG-KEY-PGDG-10 dest=/etc/pki/rpm-gpg
 
 - include: hostname.yml
 - include: swap.yml
