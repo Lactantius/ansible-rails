@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
   config.vm.define :centos do |machine|
     machine.vm.box =      "centos/7"
     machine.vm.hostname = "centos"
-    
+
     machine.vm.provider :libvirt do |domain|
       domain.memory = 1024
       domain.cpus = 1
