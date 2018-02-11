@@ -14,6 +14,9 @@
 - name: Copy the Elasticsearch repository definition
   copy: src=elasticsearch.repo dest=/etc/yum.repos.d/
 
+- name: Copy the Postgresql respository definition
+  copy: src=pgdg-10-centos.repo dest=/etc/yum.repos.d/
+
 - name: Create the GPG key for NGINX
   copy: src=RPM-GPG-KEY-NGINX dest=/etc/pki/rpm-gpg
 
