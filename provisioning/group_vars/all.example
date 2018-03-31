@@ -27,6 +27,7 @@ shared_dirs:
 
 # Nginx
 nginx_https_enabled: true
+certbot_for_https:   true
 
 # Certbot
 certbot_url: https://dl.eff.org/certbot-auto

@@ -10,9 +10,44 @@
   command: openssl dhparam -out /etc/nginx/dhparam.pem 2048
   when: nginx_https_enabled is defined and nginx_https_enabled == true and dhparam.stat.exists == false
 
+- name: Generate local ssl key
+  command: openssl genrsa -out /etc/nginx/{{ deploy_server_hostname }}.key 2048
+  when: nginx_https_enabled == true and certbot_for_https == false
+
+- name: Generate local ssl certificate
+  command: openssl req -new -x509 -key /etc/nginx/{{ deploy_server_hostname }}.key -out /etc/nginx/{{ deploy_server_hostname }}.cert -days 3650 -subj /CN={{ deploy_server_hostname }}
+  when: nginx_https_enabled == true and certbot_for_https == false
+
+  # - name: Add OpenStack repository for pyOpenSSL
+  #   yum_repository:
+  #     name: OpenStack-Newton
+  #     description: Just for pyOpenSSL
+  #     baseurl: http://mirror.centos.org/centos-7/7.4.1708/cloud/x86_64/openstack-newton/
+  #     gpgkey: https://raw.githubusercontent.com/openstack/puppet-openstack_extras/master/files/RPM-GPG-KEY-CentOS-SIG-Cloud
+  #     includepkgs: pyOpenSSL
+  #   when: nginx_https_enabled == true and certbot_for_https == false
+  # 
+  # - name: Install pyOpenSSL
+  #   yum:
+  #     name: pyOpenSSL
+  #     state: latest
+  #   when: nginx_https_enabled == true and certbot_for_https == false
+  # 
+  # - name: Generate a selfsigned certificate
+  #   openssl_certificate:
+  #     path: /etc/nginx/{{ deploy_server_hostname }}.cert
+  #     privatekey_path: /etc/nginx/{{ deploy_server_hostname }}.key
+  #     # csr_path: /etc/nginx/{{ deploy_server_hostname }}.csr
+  #     provider: selfsigned
+  #   when: nginx_https_enabled == true and certbot_for_https == false
+
 - name: Copy nginx configuration (with HTTPS enabled)
   template: src=nginx_app_config_https dest=/etc/nginx/conf.d/{{ deploy_app_name }}.conf owner=root group=root
-  when: nginx_https_enabled is defined and nginx_https_enabled == true
+  when: nginx_https_enabled == true and certbot_for_https == true
+
+- name: Copy nginx configuration (with local SSL certificate)
+  template: src=nginx_app_config_localssl dest=/etc/nginx/conf.d/{{ deploy_app_name }}.conf owner=root group=root
+  when: nginx_https_enabled == true and certbot_for_https == false
 
 - name: Copy nginx configuration (without HTTPS enabled)
   template: src=nginx_app_config dest=/etc/nginx/conf.d/{{ deploy_app_name }}.conf owner=root group=root
